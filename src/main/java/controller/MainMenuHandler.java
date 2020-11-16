@@ -13,7 +13,7 @@ public class MainMenuHandler {
         Scanner scanner = new Scanner(System.in);
         mainMenuResult = scanner.nextInt();
         switch (mainMenuResult) {
-            case (1):
+           case (1):
                 System.out.println(CreateMenuHandler.create());
                 MySQLBase.createCustomer();
                 break;

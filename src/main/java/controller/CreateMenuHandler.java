@@ -32,7 +32,7 @@ public class CreateMenuHandler {
         System.out.println("Введите сумму средств на аккаунте");
         customerAccount.setAccountValue(scanner.nextInt());
         System.out.println("Введите статус аккаунта: 1-ACTIVE, 2-BANNED, 3-DELETED");
-        boolean isExitStatusMenu = true;
+        boolean isExitStatusMenu;
         do  {
             int valueToAccountStatus = scanner.nextInt();
             switch (valueToAccountStatus) {

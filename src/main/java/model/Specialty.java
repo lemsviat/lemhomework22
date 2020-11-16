@@ -1,7 +1,17 @@
 package model;
 
 public class Specialty {
-    String specialtyName;
+    private Integer specialtyId;
+
+    public Integer getSpecialtyId() {
+        return specialtyId;
+    }
+
+    public void setSpecialtyId(Integer specialtyId) {
+        this.specialtyId = specialtyId;
+    }
+
+    private String specialtyName;
 
     public Specialty() {
     }
