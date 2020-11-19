@@ -1,19 +1,16 @@
 package repository;
 
-import controller.CreateMenuHandler;
-import controller.DeleteMenuHandler;
-import controller.ReadMenuHandler;
-import controller.UpdateMenuHandler;
+import view.CreateMenuHandler;
+import view.DeleteMenuHandler;
+import view.ReadMenuHandler;
+import view.UpdateMenuHandler;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
-import java.util.Objects;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class MySQLBase {
+public class MySQLBaseOperator {
 
     private static Connection connection;
 
@@ -49,12 +46,12 @@ public class MySQLBase {
         }
     }*/
 
-   public static void createCustomer() throws SQLException {
+    public static void createCustomer() throws SQLException {
         try {
-            connection = DatabaseConnection.getInstance().getConnection();
+            connection = DatabaseConnectionCreator.getInstance().getConnection();
             System.out.println("Creating customer...");
 
-            String query = "INSERT customers (name , specialty, account, accountstatus)VALUES(?, ?, ?, ?)";
+            String query = "INSERT customers (name , specialty, account, accountstatus) VALUES(?, ?, ?, ?)";
             PreparedStatement preparedStmt = connection.prepareStatement(query);
             preparedStmt.setString(1, CreateMenuHandler.customerName);
             preparedStmt.setString(2, CreateMenuHandler.firstSpeciality.toString() + ", "
@@ -72,13 +69,8 @@ public class MySQLBase {
     }
 
     public static void readCustomer() throws SQLException {
-       /* try {
-            connection = DatabaseConnection.getInstance().getConnection();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }*/
         try {
-            connection = DatabaseConnection.getInstance().getConnection();
+            connection = DatabaseConnectionCreator.getInstance().getConnection();
             System.out.println("Reading data about customer...");
             String query = "SELECT * FROM customers WHERE name=?";
             PreparedStatement preparedStmt = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -112,9 +104,9 @@ public class MySQLBase {
     }
 
 
-   public static void updateCustomer() throws SQLException {
+    public static void updateCustomer() throws SQLException {
         try {
-            connection = DatabaseConnection.getInstance().getConnection();
+            connection = DatabaseConnectionCreator.getInstance().getConnection();
 
             System.out.println("Updating customer...");
             String query = "UPDATE customers SET account=account+? WHERE name=?";
@@ -134,7 +126,7 @@ public class MySQLBase {
     public static void deleteCustomer() throws SQLException {
 
         try {
-            connection = DatabaseConnection.getInstance().getConnection();
+            connection = DatabaseConnectionCreator.getInstance().getConnection();
             System.out.println("Deleting customer...");
 
             String query = "DELETE FROM customers WHERE name=?";

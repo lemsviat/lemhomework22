@@ -1,4 +1,4 @@
-package controller;
+package view;
 
 import model.Account;
 import model.AccountStatus;

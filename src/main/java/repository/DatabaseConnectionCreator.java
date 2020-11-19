@@ -4,17 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
+public class DatabaseConnectionCreator {
 
-    private static DatabaseConnection instance;
+    private static DatabaseConnectionCreator instance;
     private Connection connection;
 
-    static final String DATABASE_URL = DatabaseProperties.getProperties("DATABASE_URL");
-    static final String JDBC_DRIVER = DatabaseProperties.getProperties("JDBC_DRIVER");
-    static final String USER = DatabaseProperties.getProperties("USER");;
-    static final String PASSWORD = DatabaseProperties.getProperties("PASSWORD");
+    static final String DATABASE_URL = DatabasePropertiesReader.getProperties("DATABASE_URL");
+    static final String JDBC_DRIVER = DatabasePropertiesReader.getProperties("JDBC_DRIVER");
+    static final String USER = DatabasePropertiesReader.getProperties("USER");
+    static final String PASSWORD = DatabasePropertiesReader.getProperties("PASSWORD");
 
-    private DatabaseConnection() throws SQLException {
+    private DatabaseConnectionCreator() throws SQLException {
         try {
             Class.forName(JDBC_DRIVER);
             System.out.println("Creating connection to database...");
@@ -28,11 +28,11 @@ public class DatabaseConnection {
         return connection;
     }
 
-    public static DatabaseConnection getInstance() throws SQLException {
+    public static DatabaseConnectionCreator getInstance() throws SQLException {
         if (instance == null) {
-            instance = new DatabaseConnection();
+            instance = new DatabaseConnectionCreator();
         } else if (instance.getConnection().isClosed()) {
-            instance = new DatabaseConnection();
+            instance = new DatabaseConnectionCreator();
         }
 
         return instance;

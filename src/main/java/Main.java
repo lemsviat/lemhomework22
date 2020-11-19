@@ -1,4 +1,4 @@
-import controller.MainMenuHandler;
+import view.MainMenuHandler;
 import view.MainMenu;
 
 import java.sql.SQLException;

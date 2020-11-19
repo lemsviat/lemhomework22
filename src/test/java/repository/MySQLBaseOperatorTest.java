@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MySQLBaseTest {
+public class MySQLBaseOperatorTest {
 
     @Before
     public void setUp() throws Exception {

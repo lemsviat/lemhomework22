@@ -1,6 +1,6 @@
-package controller;
+package view;
 
-import repository.MySQLBase;
+import controller.MainController;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -14,22 +14,16 @@ public class MainMenuHandler {
         mainMenuResult = scanner.nextInt();
         switch (mainMenuResult) {
            case (1):
-                System.out.println(CreateMenuHandler.create());
-                MySQLBase.createCustomer();
-                break;
+               MainController.create();
+               break;
             case (2):
-                ReadMenuHandler.read();
-                MySQLBase.readCustomer();
+                MainController.read();
                 break;
             case (3):
-                UpdateMenuHandler.update();
-                System.out.println("Обновляются данные клиента с именем - " + UpdateMenuHandler.customerName);
-                MySQLBase.updateCustomer();
+                MainController.update();
                 break;
             case (4):
-                DeleteMenuHandler.delete();
-                System.out.println("Удаляется с базы клиент с именем - " + DeleteMenuHandler.customerName);
-                MySQLBase.deleteCustomer();
+                MainController.delete();
                 break;
             case (5):
                 isExit = true;
