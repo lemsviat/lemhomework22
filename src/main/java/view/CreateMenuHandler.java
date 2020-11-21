@@ -21,20 +21,26 @@ public class CreateMenuHandler {
 
     public static Customer create() {
         System.out.println("Введите имя клиента");
-        Scanner scanner = new Scanner(System.in);
-        customerName = scanner.nextLine();
+        //Scanner scanner = new Scanner(System.in);
+        //customerName = scanner.nextLine();
+        customerName=InputChecker.readInput();
         System.out.println("Введите 1 специальность");
-        firstSpeciality.setSpecialtyName(scanner.nextLine());
+        //firstSpeciality.setSpecialtyName(scanner.nextLine());
+        firstSpeciality.setSpecialtyName(InputChecker.readInput());
         System.out.println("Введите 2 специальность");
-        secondSpeciality.setSpecialtyName(scanner.nextLine());
+        //secondSpeciality.setSpecialtyName(scanner.nextLine());
+        secondSpeciality.setSpecialtyName(InputChecker.readInput());
         System.out.println("Введите 3 специальность");
-        thirdSpeciality.setSpecialtyName(scanner.nextLine());
+        //thirdSpeciality.setSpecialtyName(scanner.nextLine());
+        thirdSpeciality.setSpecialtyName(InputChecker.readInput());
         System.out.println("Введите сумму средств на аккаунте");
-        customerAccount.setAccountValue(scanner.nextInt());
+        //customerAccount.setAccountValue(scanner.nextInt());
+        customerAccount.setAccountValue(InputChecker.readIntInput());
         System.out.println("Введите статус аккаунта: 1-ACTIVE, 2-BANNED, 3-DELETED");
         boolean isExitStatusMenu;
         do  {
-            int valueToAccountStatus = scanner.nextInt();
+            //int valueToAccountStatus = scanner.nextInt();
+            int valueToAccountStatus = InputChecker.readIntInput();
             switch (valueToAccountStatus) {
                 case (1):
                     customerAccount.setAccountStatus(AccountStatus.ACTIVE);

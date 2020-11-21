@@ -8,9 +8,9 @@ public class UpdateMenuHandler {
 
     public static void update() {
         System.out.println("Введите имя клиента, данные которого вы хотите обновить");
-        Scanner scanner = new Scanner(System.in);
-        customerName = scanner.nextLine();
+        //Scanner scanner = new Scanner(System.in);
+        customerName = InputChecker.readInput();
         System.out.println("Введите сумму, на которую вы хотите изменить аккаунт клиента");
-        customerChangeAccountValue = scanner.nextInt();
+        customerChangeAccountValue = InputChecker.readIntInput();
     }
 }

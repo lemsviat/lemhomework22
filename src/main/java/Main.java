@@ -1,10 +1,8 @@
-import view.MainMenuHandler;
 import view.MainMenu;
-
-import java.sql.SQLException;
+import view.MainMenuHandler;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         MainMenu.renderMainMenu();
         while (!MainMenuHandler.isExit) {
             MainMenuHandler.chooseAction();

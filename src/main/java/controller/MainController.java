@@ -1,46 +1,34 @@
 package controller;
 
-import repository.MySQLBaseOperator;
+import repository.CustomerRepositoryImpl;
+import repository.GenericRepository;
+import repository.SpecialtyRepositoryImpl;
 import view.CreateMenuHandler;
 import view.DeleteMenuHandler;
 import view.ReadMenuHandler;
 import view.UpdateMenuHandler;
 
-import java.sql.SQLException;
-
 public class MainController {
-    public static void create(){
+    GenericRepository customerRepository=new CustomerRepositoryImpl();
+    GenericRepository specialtyRepository= new SpecialtyRepositoryImpl();
+
+    public void create(){
         System.out.println(CreateMenuHandler.create());
-        try {
-            MySQLBaseOperator.createCustomer();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
+        customerRepository.create();
+        specialtyRepository.create();
     }
-    public static void read(){
+    public void read(){
         ReadMenuHandler.read();
-        try {
-            MySQLBaseOperator.readCustomer();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
+        customerRepository.read();
     }
-    public static void update(){
+    public void update(){
         UpdateMenuHandler.update();
         System.out.println("Обновляются данные клиента с именем - " + UpdateMenuHandler.customerName);
-        try {
-            MySQLBaseOperator.updateCustomer();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
+        customerRepository.update();
     }
-    public static void delete(){
+    public void delete(){
         DeleteMenuHandler.delete();
         System.out.println("Удаляется с базы клиент с именем - " + DeleteMenuHandler.customerName);
-        try {
-            MySQLBaseOperator.deleteCustomer();
-        } catch (SQLException throwable) {
-            throwable.printStackTrace();
-        }
+        customerRepository.delete();
     }
 }
