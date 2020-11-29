@@ -11,13 +11,23 @@ import java.sql.SQLException;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
 
+    public static final String CREATE_CUSTOMER_QUERY = "INSERT customers (name , account, accountstatus) VALUES(?, ?, ?) " +
+            "ON DUPLICATE KEY UPDATE name=name, account=account, accountstatus=accountstatus";
+    public static final String READ_CUSTOMER_QUERY = "select customers.id, customers.name, specialties.specialty_name, " +
+            "customers.account, customers.accountstatus from customers \n" +
+            "left join customer_specialties on customers.id=customer_specialties.customer_id\n" +
+            "inner join specialties on customer_specialties.specialty_id=specialties.specialty_id WHERE " +
+            "customers.name = ? order by id";
+    public static final String UPDATE_CUSTOMER_QUERY = "UPDATE customers SET account=account+? WHERE name=?";
+    public static final String DELETE_CUSTOMER_QUERY = "DELETE FROM customers WHERE name=?";
+
     @Override
     public void create() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             System.out.println("Creating customer...");
-            final String query = "INSERT customers (name , account, accountstatus) VALUES(?, ?, ?) " +
-                    "ON DUPLICATE KEY UPDATE name=name , account=account, accountstatus=accountstatus";
-            PreparedStatement preparedStmt = connection.prepareStatement(query);
+           /* final String query = "INSERT customers (name , account, accountstatus) VALUES(?, ?, ?) " +
+                    "ON DUPLICATE KEY UPDATE name=name , account=account, accountstatus=accountstatus";*/
+            PreparedStatement preparedStmt = connection.prepareStatement(CREATE_CUSTOMER_QUERY);
             preparedStmt.setString(1, CustomerView.customerName);
             preparedStmt.setInt(2, CustomerView.customerAccount.getAccountValue());
             preparedStmt.setString(3, CustomerView.customerAccount.getAccountStatus().toString());
@@ -33,19 +43,19 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public void read() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             System.out.println("Reading data about customer...");
-            final String customerToReadSQL = "select customers.id, customers.name, specialties.specialty_name, " +
+           /* final String customerToReadSQL = "select customers.id, customers.name, specialties.specialty_name, " +
                     "customers.account, customers.accountstatus from customers \n" +
                     "left join customer_specialties on customers.id=customer_specialties.customer_id\n" +
                     "inner join specialties on customer_specialties.specialty_id=specialties.specialty_id WHERE " +
-                    "customers.name like ? order by id";
-            PreparedStatement preparedStmt = connection.prepareStatement(customerToReadSQL,
+                    "customers.name = ? order by id";*/
+            PreparedStatement preparedStmt = connection.prepareStatement(READ_CUSTOMER_QUERY,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             preparedStmt.setString(1, CustomerView.customerName);
             ResultSet resultSet = preparedStmt.executeQuery();
             //resultSet.next();
             if (!resultSet.next()) {
-                System.out.println("Sorry, customer with name <"+ CustomerView.customerName+">, " +
+                System.out.println("Sorry, customer with name <" + CustomerView.customerName + ">, " +
                         " not found");
             } else {
                 resultSet.beforeFirst();
@@ -74,8 +84,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public void update() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             System.out.println("Updating customer...");
-            final String query = "UPDATE customers SET account=account+? WHERE name=?";
-            PreparedStatement preparedStmt = connection.prepareStatement(query);
+           // final String query = "UPDATE customers SET account=account+? WHERE name=?";
+            PreparedStatement preparedStmt = connection.prepareStatement(UPDATE_CUSTOMER_QUERY);
             preparedStmt.setInt(1, CustomerView.customerChangeAccountValue);
             preparedStmt.setString(2, CustomerView.customerName);
             if (preparedStmt.executeUpdate() > 0)
@@ -91,8 +101,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             System.out.println("Deleting customer...");
 
-            final String query = "DELETE FROM customers WHERE name=?";
-            PreparedStatement preparedStmt = connection.prepareStatement(query);
+            //final String query = "DELETE FROM customers WHERE name=?";
+            PreparedStatement preparedStmt = connection.prepareStatement(DELETE_CUSTOMER_QUERY);
             preparedStmt.setString(1, CustomerView.customerName);
             if (preparedStmt.executeUpdate() > 0)
                 System.out.println("Customer successfully deleted...");

@@ -14,11 +14,11 @@ public class CustomerController {
         customerRepository.read();
     }
     public void update(){
-        System.out.println("Обновляются данные клиента с именем - " + CustomerView.customerName);
+        //System.out.println("Обновляются данные клиента с именем - " + CustomerView.customerName);
         customerRepository.update();
     }
     public void delete(){
-        System.out.println("Удаляется с базы клиент с именем - " + CustomerView.customerName);
+        //System.out.println("Удаляется с базы клиент с именем - " + CustomerView.customerName);
         customerRepository.delete();
     }
 }
