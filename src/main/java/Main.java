@@ -1,12 +1,12 @@
 import view.MainMenu;
-import view.MainMenuHandler;
+import view.MainView;
 
 public class Main {
     public static void main(String[] args) {
         MainMenu.renderMainMenu();
-        while (!MainMenuHandler.isExit) {
-            MainMenuHandler.chooseAction();
-            if (!MainMenuHandler.isExit) MainMenu.renderMainMenu();
+        while (!MainView.isExit) {
+            MainView.chooseAction();
+            if (!MainView.isExit) MainMenu.renderMainMenu();
         }
     }
 }

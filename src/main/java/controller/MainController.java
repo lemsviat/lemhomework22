@@ -1,8 +1,8 @@
 package controller;
 
-import repository.CustomerRepositoryImpl;
+import repository.jdbc.CustomerRepositoryImpl;
 import repository.GenericRepository;
-import repository.SpecialtyRepositoryImpl;
+import repository.jdbc.SpecialtyRepositoryImpl;
 import view.CreateMenuHandler;
 import view.DeleteMenuHandler;
 import view.ReadMenuHandler;
