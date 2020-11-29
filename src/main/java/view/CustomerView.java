@@ -10,21 +10,30 @@ import model.Specialty;
 import java.util.Set;
 
 public class CustomerView {
+
+    public static final String INPUT_CUSTOMER_NAME = "Введите имя клиента";
+    public static final String INPUT_ACCOUNT_VALUE = "Введите сумму средств на аккаунте";
+    public static final String INPUT_ACCOUNT_STATUS_MENU = "Введите статус аккаунта: 1-ACTIVE, 2-BANNED, 3-DELETED";
+    public static final String INPUT_ACCOUNT_STATUS_CORRECTION = "Введите число от 1 до 3";
+    public static final String READ_CUSTOMER_NAME = "Введите имя клиента, данные о котором вы хотите получить";
+    public static final String UPDATE_CUSTOMER_NAME = "Введите имя клиента, данные которого вы хотите обновить";
+    public static final String UPDATE_ACCOUNT_VALUE = "Введите сумму, на которую вы хотите изменить аккаунт клиента";
+    public static final String DELETE_CUSTOMER_NAME = "Введите имя клиента, которого вы хотите удалить";
+
+
     public static String customerName;
     public static Set<Specialty> specialties;
     public static Account customerAccount = new Account();
     CustomerController customerController = new CustomerController();
     SpecialtyController specialtyController = new SpecialtyController();
-    SpecialtyView specialtyView=new SpecialtyView();
 
     public void create() {
-        System.out.println("Введите имя клиента");
+        System.out.println(INPUT_CUSTOMER_NAME);
         customerName = InputChecker.readInput();
-        //specialties = specialtyView.create();
 
-        System.out.println("Введите сумму средств на аккаунте");
+        System.out.println(INPUT_ACCOUNT_VALUE);
         customerAccount.setAccountValue(InputChecker.readIntInput());
-        System.out.println("Введите статус аккаунта: 1-ACTIVE, 2-BANNED, 3-DELETED");
+        System.out.println(INPUT_ACCOUNT_STATUS_MENU);
         boolean isExitStatusMenu;
         do {
             int valueToAccountStatus = InputChecker.readIntInput();
@@ -42,7 +51,7 @@ public class CustomerView {
                     isExitStatusMenu = true;
                     break;
                 default:
-                    System.out.println("Введите число от 1 до 3");
+                    System.out.println(INPUT_ACCOUNT_STATUS_CORRECTION);
                     isExitStatusMenu = false;
                     break;
             }
@@ -55,7 +64,7 @@ public class CustomerView {
     }
 
     public void read() {
-        System.out.println("Введите имя клиента, данные о котором вы хотите получить");
+        System.out.println(READ_CUSTOMER_NAME);
         customerName = InputChecker.readInput();
         customerController.read();
     }
@@ -63,15 +72,15 @@ public class CustomerView {
     public static int customerChangeAccountValue;
 
     public void update() {
-        System.out.println("Введите имя клиента, данные которого вы хотите обновить");
+        System.out.println(UPDATE_CUSTOMER_NAME);
         customerName = InputChecker.readInput();
-        System.out.println("Введите сумму, на которую вы хотите изменить аккаунт клиента");
+        System.out.println(UPDATE_ACCOUNT_VALUE);
         customerChangeAccountValue = InputChecker.readIntInput();
         customerController.update();
     }
 
     public void delete() {
-        System.out.println("Введите имя клиента, которого вы хотите удалить");
+        System.out.println(DELETE_CUSTOMER_NAME);
         customerName = InputChecker.readInput();
         customerController.delete();
     }

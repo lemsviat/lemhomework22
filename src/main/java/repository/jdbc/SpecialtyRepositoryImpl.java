@@ -2,7 +2,6 @@ package repository.jdbc;
 
 import repository.ConnectionFactory;
 import repository.SpecialtyRepository;
-import view.CreateMenuHandler;
 import view.CustomerView;
 import view.SpecialtyView;
 
