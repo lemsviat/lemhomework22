@@ -1,9 +1,9 @@
 package view;
 
+import controller.AccountController;
 import controller.CustomerController;
 import controller.SpecialtyController;
 import model.Account;
-import model.AccountStatus;
 import model.Customer;
 import model.Specialty;
 
@@ -12,9 +12,9 @@ import java.util.Set;
 public class CustomerView {
 
     public static final String INPUT_CUSTOMER_NAME = "Введите имя клиента";
-    public static final String INPUT_ACCOUNT_VALUE = "Введите сумму средств на аккаунте";
-    public static final String INPUT_ACCOUNT_STATUS_MENU = "Введите статус аккаунта: 1-ACTIVE, 2-BANNED, 3-DELETED";
-    public static final String INPUT_ACCOUNT_STATUS_CORRECTION = "Введите число от 1 до 3";
+    /* public static final String INPUT_ACCOUNT_VALUE = "Введите сумму средств на аккаунте";
+     public static final String INPUT_ACCOUNT_STATUS_MENU = "Введите статус аккаунта: 1-ACTIVE, 2-BANNED, 3-DELETED";
+     public static final String INPUT_ACCOUNT_STATUS_CORRECTION = "Введите число от 1 до 3";*/
     public static final String READ_CUSTOMER_NAME = "Введите имя клиента, данные о котором вы хотите получить";
     public static final String UPDATE_CUSTOMER_NAME = "Введите имя клиента, данные которого вы хотите обновить";
     public static final String UPDATE_ACCOUNT_VALUE = "Введите сумму, на которую вы хотите изменить аккаунт клиента";
@@ -23,16 +23,16 @@ public class CustomerView {
 
     public static String customerName;
     public static Set<Specialty> specialties;
-    public static Account customerAccount = new Account();
     CustomerController customerController = new CustomerController();
     SpecialtyController specialtyController = new SpecialtyController();
+    AccountController accountController = new AccountController();
 
     public void create() {
         System.out.println(INPUT_CUSTOMER_NAME);
         customerName = InputChecker.readInput();
 
-        System.out.println(INPUT_ACCOUNT_VALUE);
-        customerAccount.setAccountValue(InputChecker.readIntInput());
+        /*System.out.println(INPUT_ACCOUNT_VALUE);
+        customerAccount.setAccountValue(InputChecker.readLongInput());
         System.out.println(INPUT_ACCOUNT_STATUS_MENU);
         boolean isExitStatusMenu;
         do {
@@ -55,11 +55,15 @@ public class CustomerView {
                     isExitStatusMenu = false;
                     break;
             }
-        } while (!isExitStatusMenu);
+        } while (!isExitStatusMenu);*/
+
+        Account customerAccount = new AccountView().createAccount();
 
         customerController.create();
+        accountController.create();
         specialtyController.create();
-        new Customer(customerName, specialties, customerAccount);
+
+        System.out.println(new Customer(customerName, specialties, customerAccount));
 
     }
 
@@ -69,13 +73,13 @@ public class CustomerView {
         customerController.read();
     }
 
-    public static int customerChangeAccountValue;
+    public static Long customerChangeAccountValue;
 
     public void update() {
         System.out.println(UPDATE_CUSTOMER_NAME);
         customerName = InputChecker.readInput();
         System.out.println(UPDATE_ACCOUNT_VALUE);
-        customerChangeAccountValue = InputChecker.readIntInput();
+        customerChangeAccountValue = InputChecker.readLongInput();
         customerController.update();
     }
 

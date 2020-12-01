@@ -1,22 +1,38 @@
 package model;
 
 public class Account {
-    private int accountValue;
+    private Long accountId;
+    private Long accountValue;
     private AccountStatus accountStatus;
 
     public Account() {
     }
 
-    public Account(int accountValue, AccountStatus accountStatus) {
+    public Account(Long accountValue, AccountStatus accountStatus) {
         this.accountValue = accountValue;
         this.accountStatus = accountStatus;
     }
 
-    public int getAccountValue() {
+    public Account(Long accountId, Long accountValue, AccountStatus accountStatus) {
+        this.accountId = accountId;
+        this.accountValue = accountValue;
+        this.accountStatus = accountStatus;
+    }
+
+
+    public Long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public Long getAccountValue() {
         return accountValue;
     }
 
-    public void setAccountValue(int accountValue) {
+    public void setAccountValue(Long accountValue) {
         this.accountValue = accountValue;
     }
 

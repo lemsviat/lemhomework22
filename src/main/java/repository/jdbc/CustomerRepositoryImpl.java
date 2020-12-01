@@ -29,8 +29,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                     "ON DUPLICATE KEY UPDATE name=name , account=account, accountstatus=accountstatus";*/
             PreparedStatement preparedStmt = connection.prepareStatement(CREATE_CUSTOMER_QUERY);
             preparedStmt.setString(1, CustomerView.customerName);
-            preparedStmt.setInt(2, CustomerView.customerAccount.getAccountValue());
-            preparedStmt.setString(3, CustomerView.customerAccount.getAccountStatus().toString());
+            preparedStmt.setLong(2, AccountView.customerAccount.getAccountValue());
+            preparedStmt.setString(3, AccountView.customerAccount.getAccountStatus().toString());
             preparedStmt.execute();
 
             System.out.println("Customer successfully created...");
@@ -86,7 +86,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             System.out.println("Updating customer...");
            // final String query = "UPDATE customers SET account=account+? WHERE name=?";
             PreparedStatement preparedStmt = connection.prepareStatement(UPDATE_CUSTOMER_QUERY);
-            preparedStmt.setInt(1, CustomerView.customerChangeAccountValue);
+            preparedStmt.setLong(1, CustomerView.customerChangeAccountValue);
             preparedStmt.setString(2, CustomerView.customerName);
             if (preparedStmt.executeUpdate() > 0)
                 System.out.println("Customer successfully updated...");
