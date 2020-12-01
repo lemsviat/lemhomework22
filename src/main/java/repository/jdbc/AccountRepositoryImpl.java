@@ -15,14 +15,16 @@ public class AccountRepositoryImpl implements AccountRepository {
             "ON DUPLICATE KEY UPDATE account_value=account_value, account_status=account_status";
 
     public static final String FIND_CUSTOMER_NAME_BY_ID_QUERY = "SELECT id FROM `lem-study`.customers WHERE customers.name = ?";
-    public static final String FIND_ACCOUNT_BY_ID_QUERY = "SELECT account_id FROM `lem-study`.accounts WHERE account_value = ?";
-    public static final String INSERT_INTO_JOINED_TABLE_QUERY = "INSERT `lem-study`.customer_accounts (customer_id, account_id) VALUES(?, ?) " +
-            "ON DUPLICATE KEY UPDATE customer_id=?,account_id=account_id";
-    public static final String UPDATE_INTO_JOINED_TABLE_QUERY = "UPDATE `lem-study`.customer_accounts SET customer_id=?, account_id=? " +
+
+    //public static final String FIND_ACCOUNT_BY_ID_QUERY = "SELECT account_id FROM `lem-study`.accounts WHERE account_value = ?";
+    public static final String FIND_ACCOUNT_BY_ID_QUERY = "SELECT MAX(account_id) FROM `lem-study`.accounts WHERE account_value = ?";
+
+    public static final String INSERT_INTO_JOINED_TABLE_QUERY = "INSERT `lem-study`.customer_accounts (customer_id, account_id) VALUES(?, ?) ";
+    /*public static final String UPDATE_INTO_JOINED_TABLE_QUERY = "UPDATE `lem-study`.customer_accounts SET customer_id=?, account_id=? " +
             "WHERE customer_id=?";
 
     public static final String FIND_DUPLICATE_CUSTOMER_ID_IN_JOINED_TABLE_QUERY = "SELECT COUNT(customer_accounts.customer_id) " +
-            "FROM `lem-study`.customer_accounts WHERE customer_id = ?";
+            "FROM `lem-study`.customer_accounts WHERE customer_id = ?";*/
     @Override
     public void create() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
@@ -45,22 +47,22 @@ public class AccountRepositoryImpl implements AccountRepository {
             resultSet2.next();
             int specialtyIdToJoin = resultSet2.getInt(1);
 
-            PreparedStatement preparedStmtCheckDuplicate =
+            /*PreparedStatement preparedStmtCheckDuplicate =
                     connection.prepareStatement(FIND_DUPLICATE_CUSTOMER_ID_IN_JOINED_TABLE_QUERY);
             preparedStmtCheckDuplicate.setInt(1, customerIdToJoin);
             ResultSet resultSet3 = preparedStmtCheckDuplicate.executeQuery();
             resultSet3.next();
-            int checkDuplicate = resultSet3.getInt(1);
+            int checkDuplicate = resultSet3.getInt(1);*/
 
-            PreparedStatement preparedStmtJoinedTable;
-            if (checkDuplicate > 0) {
+           PreparedStatement preparedStmtJoinedTable;
+            /*if (checkDuplicate > 0) {
                 preparedStmtJoinedTable = connection.prepareStatement(UPDATE_INTO_JOINED_TABLE_QUERY);
-            } else {
+            } else {*/
                 preparedStmtJoinedTable = connection.prepareStatement(INSERT_INTO_JOINED_TABLE_QUERY);
-            }
+            //}
             preparedStmtJoinedTable.setInt(1, customerIdToJoin);
             preparedStmtJoinedTable.setInt(2, specialtyIdToJoin);
-            preparedStmtJoinedTable.setInt(3, customerIdToJoin);
+            //preparedStmtJoinedTable.setInt(3, customerIdToJoin);
 
             preparedStmtJoinedTable.execute();
 

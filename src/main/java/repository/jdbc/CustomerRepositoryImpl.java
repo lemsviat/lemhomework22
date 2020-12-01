@@ -11,13 +11,24 @@ import java.sql.SQLException;
 
 public class CustomerRepositoryImpl implements CustomerRepository {
 
-    public static final String CREATE_CUSTOMER_QUERY = "INSERT customers (name , account, accountstatus) VALUES(?, ?, ?) " +
-            "ON DUPLICATE KEY UPDATE name=name, account=account, accountstatus=accountstatus";
-    public static final String READ_CUSTOMER_QUERY = "select customers.id, customers.name, specialties.specialty_name, " +
+    /*public static final String CREATE_CUSTOMER_QUERY = "INSERT customers (name , account, accountstatus) VALUES(?, ?, ?) " +
+            "ON DUPLICATE KEY UPDATE name=name, account=account, accountstatus=accountstatus";*/
+    public static final String CREATE_CUSTOMER_QUERY = "INSERT customers (name) VALUES(?) " +
+            "ON DUPLICATE KEY UPDATE name=name";
+
+    /*public static final String READ_CUSTOMER_QUERY = "select customers.id, customers.name, specialties.specialty_name, " +
             "customers.account, customers.accountstatus from customers \n" +
             "left join customer_specialties on customers.id=customer_specialties.customer_id\n" +
             "inner join specialties on customer_specialties.specialty_id=specialties.specialty_id WHERE " +
-            "customers.name = ? order by id";
+            "customers.name = ? order by id";*/
+    public static final String READ_CUSTOMER_QUERY = "select customers.id, customers.name, specialties.specialty_name, " +
+            "accounts.account_value,  accounts.account_status from customers"+
+    " left join customer_specialties on customers.id=customer_specialties.customer_id"+
+    " inner join specialties  on customer_specialties.specialty_id=specialties.specialty_id"+
+    " left join customer_accounts on customers.id=customer_accounts.customer_id"+
+    " inner join accounts  on customer_accounts.account_id=accounts.account_id"+
+    " where customers.name =? order by id";
+
     public static final String UPDATE_CUSTOMER_QUERY = "UPDATE customers SET account=account+? WHERE name=?";
     public static final String DELETE_CUSTOMER_QUERY = "DELETE FROM customers WHERE name=?";
 
@@ -29,8 +40,8 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                     "ON DUPLICATE KEY UPDATE name=name , account=account, accountstatus=accountstatus";*/
             PreparedStatement preparedStmt = connection.prepareStatement(CREATE_CUSTOMER_QUERY);
             preparedStmt.setString(1, CustomerView.customerName);
-            preparedStmt.setLong(2, AccountView.customerAccount.getAccountValue());
-            preparedStmt.setString(3, AccountView.customerAccount.getAccountStatus().toString());
+            /*preparedStmt.setLong(2, AccountView.customerAccount.getAccountValue());
+            preparedStmt.setString(3, AccountView.customerAccount.getAccountStatus().toString());*/
             preparedStmt.execute();
 
             System.out.println("Customer successfully created...");
