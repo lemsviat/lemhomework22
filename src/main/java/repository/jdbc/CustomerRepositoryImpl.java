@@ -116,8 +116,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public void delete() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             System.out.println("Deleting customer...");
-
-            //final String query = "DELETE FROM customers WHERE name=?";
             PreparedStatement preparedStmt = connection.prepareStatement(DELETE_CUSTOMER_QUERY);
             preparedStmt.setString(1, CustomerView.customerName);
             if (preparedStmt.executeUpdate() > 0)

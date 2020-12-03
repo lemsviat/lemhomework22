@@ -1,5 +1,6 @@
 package repository.jdbc;
 
+import model.Specialty;
 import repository.ConnectionFactory;
 import repository.SpecialtyRepository;
 import view.CustomerView;
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class SpecialtyRepositoryImpl implements SpecialtyRepository {
 
@@ -25,13 +28,14 @@ public class SpecialtyRepositoryImpl implements SpecialtyRepository {
             "FROM customer_specialties WHERE customer_id = ?";
 
     SpecialtyView specialtyView = new SpecialtyView();
+    public static Set<Specialty> specialtySet = new LinkedHashSet<>();
 
-    @Override
     public void create() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
             System.out.println("Creating specialty of the customer...");
             PreparedStatement preparedStmt = connection.prepareStatement(CREATE_SPECIALTY_QUERY);
-            String specialties = specialtyView.create().toString();
+            specialtySet = specialtyView.create();
+            String specialties = specialtySet.toString();
             preparedStmt.setString(1, specialties);
             preparedStmt.execute();
             System.out.println("Specialty successfully created...");

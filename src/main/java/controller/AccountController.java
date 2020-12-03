@@ -14,5 +14,6 @@ public class AccountController {
     public void update(){
     }
     public void delete(){
+        accountRepository.delete();
     }
 }

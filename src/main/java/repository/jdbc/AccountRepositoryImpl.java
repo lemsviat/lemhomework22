@@ -20,6 +20,14 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     public static final String INSERT_INTO_JOINED_TABLE_QUERY = "INSERT `lem-study`.customer_accounts (customer_id, account_id) VALUES(?, ?) ";
 
+    public static final String FIND_ACCOUNT_BY_CUSTOMER_QUERY = "select `lem-study`.accounts.account_id from `lem-study`.customers" +
+            " left join `lem-study`.customer_specialties on customers.id=customer_specialties.customer_id" +
+            " inner join `lem-study`.specialties  on customer_specialties.specialty_id=specialties.specialty_id" +
+            " left join `lem-study`.customer_accounts on customers.id=customer_accounts.customer_id" +
+            " inner join `lem-study`.accounts  on customer_accounts.account_id=accounts.account_id" +
+            " where customers.name =? order by id";
+    public static final String DELETE_ACCOUNT_QUERY = "DELETE FROM `lem-study`.accounts WHERE account_id=?";
+
     @Override
     public void create() {
         try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
@@ -69,8 +77,34 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     }
 
+    Long accountId;
+
     @Override
     public void delete() {
+        try (Connection connection = ConnectionFactory.getInstance().getConnection()) {
+            PreparedStatement preparedStmt = connection.prepareStatement(FIND_ACCOUNT_BY_CUSTOMER_QUERY,
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            preparedStmt.setString(1, CustomerView.customerName);
+            ResultSet resultSet = preparedStmt.executeQuery();
+            if (!resultSet.next()) {
+                System.out.println("Sorry, account with customer`s name <" + CustomerView.customerName + ">, " +
+                        " not found");
+            } else {
+                resultSet.beforeFirst();
+                while (resultSet.next()) {
+                    accountId = resultSet.getLong(1);
+                }
 
+                System.out.println("Deleting account...");
+                PreparedStatement preparedStmtDelAccount = connection.prepareStatement(DELETE_ACCOUNT_QUERY);
+                preparedStmtDelAccount.setLong(1, accountId);
+                if (preparedStmtDelAccount.executeUpdate() > 0)
+                    System.out.println("Account successfully deleted...");
+                else System.out.println("Sorry, account not found");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
